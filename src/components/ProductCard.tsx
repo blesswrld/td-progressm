@@ -1,10 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
+import Link from "next/link";
 import RequestModal from "./RequestModal";
 
 interface ProductCardProps {
+    id: string; // ДОБАВИЛИ ID
     name: string;
     article: string;
     image?: string | null;
@@ -12,6 +13,7 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({
+    id,
     name,
     article,
     image,
@@ -22,32 +24,43 @@ export default function ProductCard({
     return (
         <>
             <div className="bg-light border border-border-main rounded-xl p-5 flex flex-col justify-between h-full transition-all hover:shadow-xl hover:border-primary/50 group">
-                {/* Блок с картинкой */}
-                <div className="w-full aspect-square relative mb-4 bg-white rounded-lg overflow-hidden flex items-center justify-center p-2 border border-gray-100">
-                    {image ? (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img
-                            src={image}
-                            alt={name}
-                            className="object-contain w-full h-full group-hover:scale-105 transition-transform duration-500"
-                            loading="lazy"
-                        />
-                    ) : (
-                        <div className="text-gray-300 flex flex-col items-center">
-                            <span className="text-4xl block mb-2">📦</span>
-                            <span className="text-xs">Нет фото</span>
-                        </div>
-                    )}
-                </div>
+                {/* Обернули картинку и текст в Link */}
+                <Link
+                    href={`/product/${id}`}
+                    className="block flex-grow cursor-pointer mb-4"
+                >
+                    <div className="w-full aspect-square relative mb-4 bg-white rounded-lg overflow-hidden flex items-center justify-center p-2 border border-gray-100">
+                        {image ? (
+                            <img
+                                src={image}
+                                alt={name}
+                                className="object-contain w-full h-full group-hover:scale-105 transition-transform duration-500"
+                                loading="lazy"
+                            />
+                        ) : (
+                            <div className="text-gray-300 flex flex-col items-center">
+                                <span className="text-4xl block mb-2">📦</span>
+                                <span className="text-xs">Нет фото</span>
+                            </div>
+                        )}
+                    </div>
 
-                <div className="mb-6 flex-grow">
-                    <p className="text-xs text-gray-400 mb-2 font-mono">
-                        Арт: {article}
-                    </p>
-                    <h3 className="font-semibold text-sm md:text-base text-dark leading-snug group-hover:text-primary transition-colors line-clamp-3">
-                        {name}
-                    </h3>
-                </div>
+                    <div>
+                        <p className="text-xs text-gray-400 mb-2 font-mono">
+                            Арт: {article}
+                        </p>
+                        <h3 className="font-semibold text-sm md:text-base text-dark leading-snug group-hover:text-primary transition-colors line-clamp-3">
+                            {name}
+                        </h3>
+                    </div>
+                </Link>
+
+                {/* Если в JSON есть цена, показываем её (опционально) */}
+                {price && price > 0 ? (
+                    <div className="mb-4 font-bold text-lg text-dark">
+                        {price} ₽
+                    </div>
+                ) : null}
 
                 <button
                     onClick={() => setIsModalOpen(true)}

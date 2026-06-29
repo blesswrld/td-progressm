@@ -2,16 +2,16 @@ import { categories, products } from "@/mockData";
 import ProductCard from "@/components/ProductCard";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, ChevronLeft, ChevronRight } from "lucide-react";
+import {
+    ArrowLeft,
+    ChevronLeft,
+    ChevronRight,
+    ArrowDownUp,
+} from "lucide-react";
 
 interface PageProps {
-    params: Promise<{
-        slug: string;
-    }>;
-    // Добавляем асинхронные searchParams для отслеживания текущей страницы
-    searchParams: Promise<{
-        page?: string;
-    }>;
+    params: Promise<{ slug: string }>;
+    searchParams: Promise<{ page?: string; sort?: string }>;
 }
 
 const ITEMS_PER_PAGE = 24;
@@ -29,52 +29,98 @@ export default async function CategoryPage({
         notFound();
     }
 
-    // Текущая страница из URL (по умолчанию 1)
     const currentPage = Number(resolvedSearchParams.page) || 1;
+    const currentSort = resolvedSearchParams.sort || "default";
 
-    // Фильтруем ВСЕ товары этой категории
-    const allCategoryProducts = products.filter(
+    // 1. Фильтруем товары этой категории
+    const categoryProducts = products.filter(
         (p) => p.categoryId === category.id,
     );
 
-    // Считаем общее количество страниц
-    const totalPages = Math.ceil(allCategoryProducts.length / ITEMS_PER_PAGE);
+    // Логика СОРТИРОВКИ
+    if (currentSort === "price_asc") {
+        categoryProducts.sort((a, b) => (a.price || 0) - (b.price || 0));
+    } else if (currentSort === "price_desc") {
+        categoryProducts.sort((a, b) => (b.price || 0) - (a.price || 0));
+    }
 
-    // Вырезаем товары только для текущей страницы
+    const totalItems = categoryProducts.length;
+    const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
+
+    // 3. Пагинация
     const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
     const endIndex = startIndex + ITEMS_PER_PAGE;
-    const categoryProducts = allCategoryProducts.slice(startIndex, endIndex);
+    const paginatedProducts = categoryProducts.slice(startIndex, endIndex);
 
     return (
         <main className="min-h-screen p-6 sm:p-8 max-w-7xl mx-auto w-full flex flex-col">
-            {/* Кнопка назад */}
             <Link
-                href="/"
-                className="inline-flex items-center gap-2 text-sm font-medium text-text-main hover:text-primary mb-8 transition-colors group"
+                href="/catalog"
+                className="inline-flex items-center gap-2 text-sm font-medium text-text-main hover:text-primary mb-6 transition-colors group w-fit"
             >
                 <ArrowLeft
                     size={16}
                     className="group-hover:-translate-x-1 transition-transform"
                 />
-                Назад на главную
+                Назад в каталог
             </Link>
 
-            {/* Заголовок категории */}
-            <div className="flex items-center justify-between mb-8 border-b border-border-main pb-4">
-                <h1 className="text-3xl font-bold text-dark">
-                    {category.name}
-                </h1>
-                <span className="text-sm font-medium px-3 py-1 bg-bg-light rounded-full text-text-main">
-                    {allCategoryProducts.length} товаров
-                </span>
+            {/* Шапка категории с селектором сортировки */}
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 border-b border-border-main pb-4 gap-4">
+                <div>
+                    <h1 className="text-3xl font-bold text-dark mb-2">
+                        {category.name}
+                    </h1>
+                    <span className="text-sm font-medium px-3 py-1 bg-bg-light rounded-full text-text-main">
+                        {totalItems} товаров
+                    </span>
+                </div>
+
+                {/* Серверный дропдаун сортировки (работает через ссылки) */}
+                <div className="relative inline-flex items-center gap-2 bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-sm">
+                    <ArrowDownUp size={16} className="text-gray-400" />
+                    <span className="text-gray-500 mr-2">Сортировка:</span>
+                    <div className="flex gap-3 font-medium">
+                        <Link
+                            href={`/catalog/${category.slug}?sort=default`}
+                            className={
+                                currentSort === "default"
+                                    ? "text-primary"
+                                    : "text-gray-400 hover:text-dark"
+                            }
+                        >
+                            По умолчанию
+                        </Link>
+                        <Link
+                            href={`/catalog/${category.slug}?sort=price_asc`}
+                            className={
+                                currentSort === "price_asc"
+                                    ? "text-primary"
+                                    : "text-gray-400 hover:text-dark"
+                            }
+                        >
+                            Дешевле
+                        </Link>
+                        <Link
+                            href={`/catalog/${category.slug}?sort=price_desc`}
+                            className={
+                                currentSort === "price_desc"
+                                    ? "text-primary"
+                                    : "text-gray-400 hover:text-dark"
+                            }
+                        >
+                            Дороже
+                        </Link>
+                    </div>
+                </div>
             </div>
 
-            {/* Сетка товаров */}
-            {categoryProducts.length > 0 ? (
+            {paginatedProducts.length > 0 ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 flex-grow">
-                    {categoryProducts.map((product) => (
+                    {paginatedProducts.map((product) => (
                         <ProductCard
                             key={product.id}
+                            id={product.id}
                             name={product.name}
                             article={product.article}
                             image={product.image}
@@ -84,20 +130,16 @@ export default async function CategoryPage({
                 </div>
             ) : (
                 <div className="py-20 text-center bg-white border border-border-main rounded-2xl flex-grow">
-                    <p className="text-lg text-text-main">
-                        В этой категории пока нет товаров или страницы не
-                        существует.
-                    </p>
+                    <p className="text-lg text-text-main">Нет товаров.</p>
                 </div>
             )}
 
-            {/* Блок пагинации (рендерится только если страниц больше одной) */}
+            {/* Блок пагинации */}
             {totalPages > 1 && (
                 <div className="flex items-center justify-center gap-2 mt-12 pt-6 border-t border-border-main">
-                    {/* Стрелка Назад */}
                     {currentPage > 1 ? (
                         <Link
-                            href={`/catalog/${category.slug}?page=${currentPage - 1}`}
+                            href={`/catalog/${category.slug}?page=${currentPage - 1}&sort=${currentSort}`}
                             className="p-2.5 rounded-lg border border-border-main hover:border-primary text-dark hover:text-primary transition-colors bg-white"
                         >
                             <ChevronLeft size={18} />
@@ -108,33 +150,24 @@ export default async function CategoryPage({
                         </span>
                     )}
 
-                    {/* Номера страниц (показываем текущую, первую, последнюю и соседние) */}
                     {Array.from({ length: totalPages }).map((_, index) => {
                         const pageNum = index + 1;
-                        // Логика отображения: всегда показываем первую, последнюю и ±2 страницы от текущей
                         if (
                             pageNum === 1 ||
                             pageNum === totalPages ||
                             Math.abs(pageNum - currentPage) <= 1
                         ) {
-                            const isActive = pageNum === currentPage;
                             return (
                                 <Link
                                     key={pageNum}
-                                    href={`/catalog/${category.slug}?page=${pageNum}`}
-                                    className={`px-4 py-2 text-sm font-bold rounded-lg border transition-all ${
-                                        isActive
-                                            ? "bg-primary border-primary text-light shadow-md shadow-primary/10"
-                                            : "bg-white border-border-main text-dark hover:border-primary hover:text-primary"
-                                    }`}
+                                    href={`/catalog/${category.slug}?page=${pageNum}&sort=${currentSort}`}
+                                    className={`px-4 py-2 text-sm font-bold rounded-lg border transition-all ${pageNum === currentPage ? "bg-primary border-primary text-light shadow-md shadow-primary/10" : "bg-white border-border-main text-dark hover:border-primary hover:text-primary"}`}
                                 >
                                     {pageNum}
                                 </Link>
                             );
                         }
-
-                        // Ставим многоточие, если между кнопками большой разрыв
-                        if (pageNum === 2 || pageNum === totalPages - 1) {
+                        if (pageNum === 2 || pageNum === totalPages - 1)
                             return (
                                 <span
                                     key={pageNum}
@@ -143,15 +176,12 @@ export default async function CategoryPage({
                                     ...
                                 </span>
                             );
-                        }
-
                         return null;
                     })}
 
-                    {/* Стрелка Вперед */}
                     {currentPage < totalPages ? (
                         <Link
-                            href={`/catalog/${category.slug}?page=${currentPage + 1}`}
+                            href={`/catalog/${category.slug}?page=${currentPage + 1}&sort=${currentSort}`}
                             className="p-2.5 rounded-lg border border-border-main hover:border-primary text-dark hover:text-primary transition-colors bg-white"
                         >
                             <ChevronRight size={18} />
