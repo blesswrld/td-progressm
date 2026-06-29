@@ -17,14 +17,12 @@ import ContactSection from "@/components/ContactSection";
 export default function Home() {
     return (
         <main className="flex flex-col w-full">
-            {/* 1. Интерактивный Hero с общим фоном секции */}
             <section className="relative w-full py-12 md:py-20 bg-cover bg-center bg-no-repeat bg-[url('/hero-section-bg.jpg')] bg-blend-overlay bg-black/60">
                 <div className="px-4 sm:px-8 max-w-7xl mx-auto w-full">
                     <InteractiveHero />
                 </div>
             </section>
 
-            {/* 2. Секция О компании */}
             <section className="w-full py-12 md:py-16 bg-bg-light border-y border-border-main">
                 <div className="px-4 sm:px-8 max-w-7xl mx-auto">
                     <div className="flex flex-col md:flex-row gap-8 items-start">
@@ -53,19 +51,15 @@ export default function Home() {
                 </div>
             </section>
 
-            {/* 3. Блок статистики с фоном */}
             <section className="relative w-full py-12 md:py-20 bg-cover bg-center bg-no-repeat bg-[url('/stats-section-bg.jpg')] bg-blend-overlay bg-slate-900/80">
                 <div className="px-4 sm:px-8 max-w-7xl mx-auto w-full">
                     <StatsGrid />
                 </div>
             </section>
 
-            {/* 4. Остальной контент */}
             <div className="px-4 sm:px-8 max-w-7xl mx-auto py-16 flex flex-col gap-16 w-full">
-                {/* Преимущества */}
                 <Features />
 
-                {/* Сетка каталога */}
                 <section className="mb-16">
                     <div className="flex items-center justify-between mb-8 border-b border-border-main pb-4">
                         <h2 className="text-2xl md:text-3xl font-bold text-dark">
@@ -85,12 +79,10 @@ export default function Home() {
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
                         {categories.slice(0, 8).map((category, index) => {
-                            // Считаем количество товаров в категории (опционально, можно убрать если сильно грузит)
                             const count = products.filter(
                                 (p) => p.categoryId === category.id,
                             ).length;
 
-                            // Разные иконки для разнообразия (просто пример логики)
                             const icons = [
                                 Wrench,
                                 Zap,
@@ -106,7 +98,6 @@ export default function Home() {
                                     href={`/catalog/${category.slug}`}
                                     className="group relative bg-white border border-gray-200 rounded-2xl p-6 transition-all duration-300 hover:border-primary/50 hover:shadow-lg hover:shadow-primary/5 overflow-hidden flex flex-col justify-between h-40"
                                 >
-                                    {/* Декоративный фоновый элемент */}
                                     <div className="absolute -right-6 -top-6 w-24 h-24 bg-gray-50 rounded-full group-hover:bg-primary/5 transition-colors duration-500 z-0"></div>
 
                                     <div className="relative z-10 flex justify-between items-start mb-4">
@@ -131,7 +122,6 @@ export default function Home() {
                     </div>
                 </section>
 
-                {/* Форма обратной связи */}
                 <ContactSection />
             </div>
         </main>

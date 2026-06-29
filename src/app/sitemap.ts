@@ -2,9 +2,8 @@ import { categories, products } from "@/mockData";
 import { MetadataRoute } from "next";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-    const baseUrl = "https://instrument-analog.ru"; //!Рабочий домен
+    const baseUrl = "https://instrument-analog.ru"; // Заменить на реальный домен сайта
 
-    // Ссылки на категории
     const categoryUrls = categories.map((cat) => ({
         url: `${baseUrl}/catalog/${cat.slug}`,
         lastModified: new Date(),
@@ -12,7 +11,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         priority: 0.8,
     }));
 
-    // Ссылки на товары (все 15к товаров)
     const productUrls = products.map((prod) => ({
         url: `${baseUrl}/product/${prod.id}`,
         lastModified: new Date(),
@@ -20,7 +18,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         priority: 0.6,
     }));
 
-    // Главные страницы
     const staticUrls = [
         {
             url: baseUrl,

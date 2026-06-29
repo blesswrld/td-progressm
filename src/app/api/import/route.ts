@@ -24,7 +24,6 @@ export async function GET() {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         let rawProducts: any[] = [];
 
-        // ПРОВЕРКА: Если API вернул объект (как в твоем примере), превращаем его в массив
         if (
             rawData &&
             typeof rawData === "object" &&
@@ -33,8 +32,8 @@ export async function GET() {
         ) {
             rawProducts = Object.keys(rawData).map((key) => {
                 return {
-                    id: key, // Берем ключ (например, "14510") как ID
-                    ...rawData[key], // Разворачиваем данные внутри (ARTICLE, BASE_PRICE и т.д.)
+                    id: key,
+                    ...rawData[key],
                 };
             });
         } else {
@@ -44,15 +43,11 @@ export async function GET() {
             });
         }
 
-        // Так как у нас пока нет названий и категорий из этого метода,
-        // мы пропускаем текстовый фильтр (он всё равно ничего не найдет)
-
-        // Форматируем под нашу карточку (ProductCard)
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const formattedProducts = rawProducts.map((p: any) => ({
             id: p.id,
-            categoryId: "1", // Временно всё в одну категорию
-            name: `Товар Арт. ${p.ARTICLE}`, // Генерируем название, так как API его не отдает
+            categoryId: "1",
+            name: `Товар Арт. ${p.ARTICLE}`,
             article: p.ARTICLE,
             price: parseFloat(p.BASE_PRICE) || 0,
             discount_price: parseFloat(p.DISCOUNT_PRICE) || 0,
@@ -64,7 +59,6 @@ export async function GET() {
             stats: {
                 total_items: formattedProducts.length,
             },
-            // Выводим все спарсенные товары
             products: formattedProducts,
         });
         // eslint-disable-next-line @typescript-eslint/no-explicit-any

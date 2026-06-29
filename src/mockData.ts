@@ -1,6 +1,5 @@
 import catalogJson from "./catalog.json";
 
-// Явно описываем структуру для TypeScript, чтобы убрать ошибки 'unknown' и 'any'
 interface CatalogItem {
     id: string;
     article: string;
@@ -11,7 +10,6 @@ interface CatalogItem {
     price: number;
 }
 
-// Принудительно указываем, что JSON — это массив таких объектов
 const catalog = catalogJson as CatalogItem[];
 
 function slugify(text: string) {
@@ -62,7 +60,6 @@ function slugify(text: string) {
         .replace(/-+/g, "-");
 }
 
-// Собираем уникальные категории
 const uniqueGroups = Array.from(
     new Set(catalog.map((p) => p.group).filter(Boolean)),
 );
@@ -73,7 +70,6 @@ export const categories = uniqueGroups.map((group, index) => ({
     slug: slugify(group),
 }));
 
-// Экспортируем готовые товары
 export const products = catalog.map((p) => {
     const category = categories.find((c) => c.name === p.group);
     return {

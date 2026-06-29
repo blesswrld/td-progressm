@@ -5,14 +5,9 @@ export default function robots(): MetadataRoute.Robots {
         rules: {
             userAgent: "*",
             allow: "/",
-            disallow: [
-                "/api/", // Закрываем наши прокси роуты
-                "/*?*sort=", // Исключаем дубли страниц сортировок
-                "/*?*page=", // Исключаем дубли страниц пагинации
-                "/.next/",
-                "/out/",
-            ],
+            disallow: ["/api/", "/*?*sort=", "/*?*page=", "/.next/", "/out/"],
         },
+        // Заменить на реальный домен сайта
         sitemap: "https://instrument-analog.ru/sitemap.xml",
     };
 }

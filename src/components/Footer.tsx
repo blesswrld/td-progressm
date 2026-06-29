@@ -3,14 +3,12 @@ import { categories } from "@/mockData";
 import { Phone, Mail, MapPin } from "lucide-react";
 
 export default function Footer() {
-    // Берем первые 6 категорий (направлений), чтобы футер не был бесконечным
     const topCategories = categories.slice(0, 6);
 
     return (
         <footer className="bg-dark pt-16 pb-8 border-t border-gray-800 text-gray-300">
             <div className="max-w-7xl mx-auto px-6 sm:px-8">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
-                    {/* 1. О компании */}
                     <div className="lg:col-span-1">
                         <Link href="/" className="inline-block mb-6">
                             <img
@@ -25,7 +23,6 @@ export default function Footer() {
                         </p>
                     </div>
 
-                    {/* 2. Направления (Каталог) */}
                     <div>
                         <h3 className="text-light text-lg font-bold mb-5 tracking-wide">
                             Направления
@@ -52,7 +49,6 @@ export default function Footer() {
                         </ul>
                     </div>
 
-                    {/* 3. Информация */}
                     <div>
                         <h3 className="text-light text-lg font-bold mb-5 tracking-wide">
                             Информация
@@ -93,7 +89,6 @@ export default function Footer() {
                         </ul>
                     </div>
 
-                    {/* 4. Контакты */}
                     <div>
                         <h3 className="text-light text-lg font-bold mb-5 tracking-wide">
                             Контакты
@@ -141,7 +136,6 @@ export default function Footer() {
                     </div>
                 </div>
 
-                {/* Нижняя полоса */}
                 <div className="pt-8 border-t border-gray-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gray-500">
                     <p>
                         © {new Date().getFullYear()} ТСК ПРОГРЕСС. Все права

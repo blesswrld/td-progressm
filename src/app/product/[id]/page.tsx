@@ -9,7 +9,6 @@ interface PageProps {
     params: Promise<{ id: string }>;
 }
 
-// 1. ДИНАМИЧЕСКОЕ SEO (МЕТАТЕГИ И OPEN GRAPH)
 export async function generateMetadata({
     params,
 }: PageProps): Promise<Metadata> {
@@ -34,7 +33,7 @@ export async function generateMetadata({
         openGraph: {
             title,
             description,
-            type: "video.other", // Для e-commerce страниц
+            type: "video.other",
             images: [
                 {
                     url: product.image || "/og-image.jpg",
@@ -57,7 +56,6 @@ export default async function ProductPage({ params }: PageProps) {
 
     const category = categories.find((c) => c.id === product.categoryId);
 
-    // 2. МИКРОРАЗМЕТКА ДЛЯ ПОИСКОВИКОВ (JSON-LD)
     const productJsonLd = {
         "@context": "https://schema.org",
         "@type": "Product",
@@ -72,6 +70,7 @@ export default async function ProductPage({ params }: PageProps) {
         },
         offers: {
             "@type": "Offer",
+            // Заменить домен на реальный домен сайта
             url: `https://instrument-analog.ru/product/${product.id}`,
             priceCurrency: "RUB",
             price: product.price || 0,
@@ -118,7 +117,6 @@ export default async function ProductPage({ params }: PageProps) {
 
     return (
         <main className="min-h-screen p-6 sm:p-8 max-w-7xl mx-auto w-full">
-            {/* Внедрение JSON-LD разметки в код страницы */}
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{
@@ -132,7 +130,6 @@ export default async function ProductPage({ params }: PageProps) {
                 }}
             />
 
-            {/* Кнопка назад */}
             <Link
                 href={category ? `/catalog/${category.slug}` : "/catalog"}
                 className="inline-flex items-center gap-2 text-sm font-medium text-text-main hover:text-primary mb-6 transition-colors group w-fit"
@@ -144,7 +141,6 @@ export default async function ProductPage({ params }: PageProps) {
                 Назад в категорию
             </Link>
 
-            {/* Хлебные крошки */}
             <div className="flex flex-wrap items-center gap-2 text-sm text-text-main mb-8">
                 <Link href="/" className="hover:text-primary transition-colors">
                     Главная
@@ -174,7 +170,6 @@ export default async function ProductPage({ params }: PageProps) {
             </div>
 
             <div className="bg-white rounded-3xl p-6 sm:p-10 border border-border-main shadow-sm flex flex-col md:flex-row gap-10 lg:gap-16">
-                {/* Левая колонка: Изображение */}
                 <div className="md:w-1/2 flex-shrink-0">
                     <div className="w-full aspect-square bg-bg-light rounded-2xl flex items-center justify-center p-8 border border-gray-100 relative overflow-hidden">
                         {product.image ? (
@@ -189,13 +184,11 @@ export default async function ProductPage({ params }: PageProps) {
                     </div>
                 </div>
 
-                {/* Правая колонка: Инфо и Кнопки */}
                 <div className="md:w-1/2 flex flex-col justify-center">
                     <p className="text-sm font-mono text-gray-400 mb-4 bg-gray-50 inline-block px-3 py-1 rounded-md border border-gray-100 w-fit">
                         Артикул: {product.article}
                     </p>
 
-                    {/* Строго единственный H1 на странице для SEO */}
                     <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-dark leading-tight mb-6">
                         {product.name}
                     </h1>

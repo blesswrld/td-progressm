@@ -6,7 +6,7 @@ import Link from "next/link";
 import RequestModal from "./RequestModal";
 
 interface ProductCardProps {
-    id: string; // ДОБАВИЛИ ID
+    id: string;
     name: string;
     article: string;
     image?: string | null;
@@ -25,7 +25,6 @@ export default function ProductCard({
     return (
         <>
             <div className="bg-light border border-border-main rounded-xl p-5 flex flex-col justify-between h-full transition-all hover:shadow-xl hover:border-primary/50 group">
-                {/* Обернули картинку и текст в Link */}
                 <Link
                     href={`/product/${id}`}
                     className="block flex-grow cursor-pointer mb-4"
@@ -35,7 +34,7 @@ export default function ProductCard({
                             <Image
                                 src={image}
                                 alt={name}
-                                fill // Растягивает картинку по размерам контейнера
+                                fill
                                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 33vw, 25vw"
                                 className="object-contain w-full h-full group-hover:scale-105 transition-transform duration-500 p-2"
                                 loading="lazy"
@@ -58,7 +57,6 @@ export default function ProductCard({
                     </div>
                 </Link>
 
-                {/* Если в JSON есть цена, показываем её (опционально) */}
                 {price && price > 0 ? (
                     <div className="mb-4 font-bold text-lg text-dark">
                         {price} ₽

@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import "./globals.css";
 
-// Подключаем наши глобальные компоненты
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
@@ -12,7 +11,6 @@ const montserrat = Montserrat({
     variable: "--font-montserrat",
 });
 
-// Базовые SEO-настройки
 export const metadata: Metadata = {
     title: "ТСК ПРОГРЕСС | Каталог строительных материалов",
     description:
@@ -31,7 +29,6 @@ export default function RootLayout({
             >
                 <Header />
 
-                {/* Основной контент страницы */}
                 <div className="flex-grow">{children}</div>
 
                 <Footer />

@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useRef } from "react";
 
-// 1. Компонент плавного счетчика (запускается при скролле)
 function AnimatedNumber({ end, suffix }: { end: number; suffix: string }) {
     const [count, setCount] = useState(0);
     const [hasAnimated, setHasAnimated] = useState(false);
@@ -14,7 +13,7 @@ function AnimatedNumber({ end, suffix }: { end: number; suffix: string }) {
                 if (entry.isIntersecting && !hasAnimated) {
                     setHasAnimated(true);
                     let start: number;
-                    const duration = 2000; // Анимация длится 2 секунды
+                    const duration = 2000;
 
                     const step = (timestamp: number) => {
                         if (!start) start = timestamp;
@@ -22,7 +21,6 @@ function AnimatedNumber({ end, suffix }: { end: number; suffix: string }) {
                             (timestamp - start) / duration,
                             1,
                         );
-                        // Плавное замедление в конце (easeOutQuart)
                         const easeOut = 1 - Math.pow(1 - progress, 4);
 
                         setCount(Math.floor(easeOut * end));
@@ -49,7 +47,6 @@ function AnimatedNumber({ end, suffix }: { end: number; suffix: string }) {
     );
 }
 
-// 2. Данные с настроенными цветами (4 разных цвета под гамму)
 const statsData = [
     {
         id: 0,
@@ -105,13 +102,11 @@ const statsData = [
     },
 ];
 
-// 3. Основной компонент
 export default function StatsGrid() {
     const [activeStat, setActiveStat] = useState(0);
 
     return (
         <section className="flex flex-col lg:flex-row gap-8 lg:gap-10 items-center">
-            {/* Левая часть: Динамический текст */}
             <div className="flex-1 w-full lg:pr-10 min-h-[220px] flex flex-col justify-center">
                 <span className="text-sm font-bold text-primary tracking-wider uppercase mb-2 block">
                     Прогресс в цифрах
@@ -130,12 +125,10 @@ export default function StatsGrid() {
                 </div>
             </div>
 
-            {/* Правая часть: Интерактивная сетка */}
             <div className="flex-1 w-full grid grid-cols-1 min-[400px]:grid-cols-2 rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl bg-border-main gap-[1px]">
                 {statsData.map((stat, index) => {
                     const isActive = activeStat === index;
 
-                    // Логика прозрачности: если это активный блок ИЛИ это блок-исключение (400+) -> 100% цвета. Иначе 50%.
                     const opacityClass =
                         isActive || stat.isException
                             ? "opacity-100"

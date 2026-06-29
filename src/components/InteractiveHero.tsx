@@ -64,7 +64,6 @@ export default function InteractiveHero() {
                     </div>
                 </div>
 
-                {/* Правая часть (Сетка навигации) */}
                 <div className="w-full lg:w-[500px] grid grid-cols-1 sm:grid-cols-2 relative z-10 border-t lg:border-l lg:border-t-0 border-white/10 bg-dark/40 backdrop-blur-sm">
                     {slides.map((slide, index) => {
                         const isActive = activeSlide === index;

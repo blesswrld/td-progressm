@@ -1,13 +1,12 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Phone } from "lucide-react";
-import SearchInput from "./SearchInput"; // Импортируем живой поиск
+import SearchInput from "./SearchInput";
 
 export default function Header() {
     return (
         <header className="bg-dark text-light py-3 sm:py-4 border-b border-gray-800 sticky top-0 z-50">
             <div className="max-w-7xl mx-auto px-4 sm:px-8 flex flex-wrap items-center justify-between gap-y-4 gap-x-4">
-                {/* Логотип */}
                 <Link href="/" className="flex-shrink-0">
                     <Image
                         src="/progressm-logo.png"
@@ -19,7 +18,6 @@ export default function Header() {
                     />
                 </Link>
 
-                {/* Контакты */}
                 <div className="flex flex-col items-end">
                     <a
                         href="tel:+78000000000"
@@ -37,7 +35,6 @@ export default function Header() {
                     </span>
                 </div>
 
-                {/* Компонент живого поиска */}
                 <SearchInput />
             </div>
         </header>

@@ -6,7 +6,6 @@ export async function POST(request: Request) {
         const { formType, name, phone, email, productName, productArticle } =
             body;
 
-        // Берем скрытые ключи из переменных окружения
         const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
         const CHAT_ID = process.env.TELEGRAM_CHAT_ID;
 
@@ -32,7 +31,6 @@ export async function POST(request: Request) {
             if (email) message += `📧 *Email:* ${email}\n`;
         }
 
-        // Стучимся к API Telegram
         const telegramUrl = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
         const response = await fetch(telegramUrl, {
             method: "POST",

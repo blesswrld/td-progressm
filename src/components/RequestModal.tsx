@@ -46,7 +46,6 @@ export default function RequestModal({
 
             if (res.ok) {
                 setIsSuccess(true);
-                // Закрываем окно через 3 секунды после успешной отправки
                 setTimeout(() => {
                     setIsSuccess(false);
                     onClose();
@@ -65,7 +64,6 @@ export default function RequestModal({
     return (
         <div className="fixed inset-0 z-[150] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
             <div className="relative w-full max-w-md bg-white rounded-2xl shadow-2xl border border-gray-200 p-6 overflow-hidden">
-                {/* Кнопка закрытия окна */}
                 <button
                     onClick={onClose}
                     className="absolute top-4 right-4 text-gray-400 hover:text-dark transition-colors p-1 rounded-lg hover:bg-gray-100"
@@ -92,7 +90,6 @@ export default function RequestModal({
                             Запрос стоимости
                         </h3>
 
-                        {/* Плашка с инфо о товаре */}
                         <div className="bg-gray-55 p-3 rounded-xl mb-6 border border-gray-100 text-sm">
                             <p className="text-xs text-gray-400 font-mono mb-1">
                                 Артикул: {productArticle}
@@ -102,7 +99,6 @@ export default function RequestModal({
                             </p>
                         </div>
 
-                        {/* Форма */}
                         <form onSubmit={handleSubmit} className="space-y-4">
                             <div>
                                 <label className="block text-xs font-bold text-dark uppercase tracking-wider mb-1.5">

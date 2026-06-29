@@ -28,7 +28,7 @@ export default function ContactSection() {
 
             if (res.ok) {
                 setIsSuccess(true);
-                e.currentTarget.reset(); // Очищаем форму
+                e.currentTarget.reset();
                 setTimeout(() => setIsSuccess(false), 4000);
             } else {
                 alert("Ошибка отправки. Попробуйте снова.");

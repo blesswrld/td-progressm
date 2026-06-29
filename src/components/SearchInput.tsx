@@ -17,7 +17,6 @@ export default function SearchInput() {
     const [isLoading, setIsLoading] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
 
-    // Состояние для модалки заказа
     const [selectedProduct, setSelectedProduct] = useState<{
         name: string;
         article: string;
@@ -25,7 +24,6 @@ export default function SearchInput() {
 
     const searchRef = useRef<HTMLDivElement>(null);
 
-    // Закрываем выпадающий список при клике вне поиска
     useEffect(() => {
         function handleClickOutside(event: MouseEvent) {
             if (
@@ -40,7 +38,6 @@ export default function SearchInput() {
             document.removeEventListener("mousedown", handleClickOutside);
     }, []);
 
-    // Эффект для дебаунса (задержка отправки запроса на 300мс)
     useEffect(() => {
         if (query.trim().length < 2) {
             // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -97,7 +94,6 @@ export default function SearchInput() {
                 </div>
             </div>
 
-            {/* Выпадающий список результатов */}
             {isOpen && results.length > 0 && (
                 <div className="absolute left-0 right-0 mt-2 bg-white rounded-xl shadow-2xl border border-border-main overflow-hidden z-[100] max-h-[380px] overflow-y-auto">
                     {results.map((product) => (
@@ -137,7 +133,6 @@ export default function SearchInput() {
                 </div>
             )}
 
-            {/* Выпадашка если ничего не найдено */}
             {isOpen &&
                 query.trim().length >= 2 &&
                 results.length === 0 &&
@@ -147,7 +142,6 @@ export default function SearchInput() {
                     </div>
                 )}
 
-            {/* Модалка для заказа прямо из поиска */}
             {selectedProduct && (
                 <RequestModal
                     isOpen={true}
