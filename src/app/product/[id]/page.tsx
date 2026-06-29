@@ -3,26 +3,147 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, CheckCircle2 } from "lucide-react";
 import OrderButton from "@/components/OrderButton";
+import type { Metadata } from "next";
 
 interface PageProps {
     params: Promise<{ id: string }>;
 }
 
+// 1. ДИНАМИЧЕСКОЕ SEO (МЕТАТЕГИ И OPEN GRAPH)
+export async function generateMetadata({
+    params,
+}: PageProps): Promise<Metadata> {
+    const resolvedParams = await params;
+    const product = products.find((p) => p.id === resolvedParams.id);
+
+    if (!product) return { title: "Товар не найден | ТСК ПРОГРЕСС" };
+
+    const title = `${product.name} — купить по выгодной цене | ТСК ПРОГРЕСС`;
+    const description = `Заказывайте ${product.name} (артикул: ${product.article}) с доставкой. Низкие цены, официальная гарантия, профессиональный инструмент от компании ТСК ПРОГРЕСС.`;
+
+    return {
+        title,
+        description,
+        keywords: [
+            product.name,
+            product.article,
+            "купить инструмент",
+            "ТСК ПРОГРЕСС",
+            product.group,
+        ],
+        openGraph: {
+            title,
+            description,
+            type: "video.other", // Для e-commerce страниц
+            images: [
+                {
+                    url: product.image || "/og-image.jpg",
+                    width: 800,
+                    height: 800,
+                    alt: product.name,
+                },
+            ],
+        },
+    };
+}
+
 export default async function ProductPage({ params }: PageProps) {
     const resolvedParams = await params;
-
-    // Ищем товар по ID
     const product = products.find((p) => p.id === resolvedParams.id);
 
     if (!product) {
         notFound();
     }
 
-    // Ищем категорию товара для хлебных крошек
     const category = categories.find((c) => c.id === product.categoryId);
+
+    // 2. МИКРОРАЗМЕТКА ДЛЯ ПОИСКОВИКОВ (JSON-LD)
+    const productJsonLd = {
+        "@context": "https://schema.org",
+        "@type": "Product",
+        name: product.name,
+        image: product.image || "",
+        sku: product.article,
+        mpn: product.article,
+        category: category?.name || product.group,
+        brand: {
+            "@type": "Brand",
+            name: "ТСК ПРОГРЕСС",
+        },
+        offers: {
+            "@type": "Offer",
+            url: `https://instrument-analog.ru/product/${product.id}`,
+            priceCurrency: "RUB",
+            price: product.price || 0,
+            priceValidUntil: "2027-12-31",
+            itemCondition: "https://schema.org/NewCondition",
+            availability: "https://schema.org/InStock",
+        },
+    };
+
+    const breadcrumbsJsonLd = {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        itemListElement: [
+            {
+                "@type": "ListItem",
+                position: 1,
+                name: "Главная",
+                item: "https://instrument-analog.ru",
+            },
+            {
+                "@type": "ListItem",
+                position: 2,
+                name: "Каталог",
+                item: "https://instrument-analog.ru/catalog",
+            },
+            ...(category
+                ? [
+                      {
+                          "@type": "ListItem",
+                          position: 3,
+                          name: category.name,
+                          item: `https://instrument-analog.ru/catalog/${category.slug}`,
+                      },
+                  ]
+                : []),
+            {
+                "@type": "ListItem",
+                position: category ? 4 : 3,
+                name: product.name,
+                item: `https://instrument-analog.ru/product/${product.id}`,
+            },
+        ],
+    };
 
     return (
         <main className="min-h-screen p-6 sm:p-8 max-w-7xl mx-auto w-full">
+            {/* Внедрение JSON-LD разметки в код страницы */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                    __html: JSON.stringify(productJsonLd),
+                }}
+            />
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                    __html: JSON.stringify(breadcrumbsJsonLd),
+                }}
+            />
+
+            {/* Кнопка назад */}
+            <Link
+                href={category ? `/catalog/${category.slug}` : "/catalog"}
+                className="inline-flex items-center gap-2 text-sm font-medium text-text-main hover:text-primary mb-6 transition-colors group w-fit"
+            >
+                <ArrowLeft
+                    size={16}
+                    className="group-hover:-translate-x-1 transition-transform"
+                />
+                Назад в категорию
+            </Link>
+
             {/* Хлебные крошки */}
             <div className="flex flex-wrap items-center gap-2 text-sm text-text-main mb-8">
                 <Link href="/" className="hover:text-primary transition-colors">
@@ -39,18 +160,10 @@ export default async function ProductPage({ params }: PageProps) {
                 {category && (
                     <>
                         <Link
-                            href={
-                                category
-                                    ? `/catalog/${category.slug}`
-                                    : "/catalog"
-                            }
-                            className="inline-flex items-center gap-2 text-sm font-medium text-text-main hover:text-primary mb-6 transition-colors group w-fit"
+                            href={`/catalog/${category.slug}`}
+                            className="hover:text-primary transition-colors"
                         >
-                            <ArrowLeft
-                                size={16}
-                                className="group-hover:-translate-x-1 transition-transform"
-                            />
-                            Назад в категорию
+                            {category.name}
                         </Link>
                         <span>/</span>
                     </>
@@ -82,11 +195,11 @@ export default async function ProductPage({ params }: PageProps) {
                         Артикул: {product.article}
                     </p>
 
+                    {/* Строго единственный H1 на странице для SEO */}
                     <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-dark leading-tight mb-6">
                         {product.name}
                     </h1>
 
-                    {/* Блок преимуществ (заглушка для солидности) */}
                     <div className="space-y-3 mb-8 bg-green-50/50 p-4 rounded-xl border border-green-100">
                         <div className="flex items-center gap-3 text-sm text-dark">
                             <CheckCircle2
@@ -105,7 +218,6 @@ export default async function ProductPage({ params }: PageProps) {
                     </div>
 
                     <div className="mt-auto pt-6 border-t border-gray-100">
-                        {/* Вызов клиентской кнопки модалки */}
                         <OrderButton
                             name={product.name}
                             article={product.article}

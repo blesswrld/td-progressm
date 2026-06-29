@@ -8,6 +8,7 @@ import {
     ChevronRight,
     ArrowDownUp,
 } from "lucide-react";
+import type { Metadata } from "next";
 
 interface PageProps {
     params: Promise<{ slug: string }>;
@@ -15,6 +16,21 @@ interface PageProps {
 }
 
 const ITEMS_PER_PAGE = 24;
+
+// 1. ДИНАМИЧЕСКИЕ МЕТАТЕГИ КАТЕГОРИИ
+export async function generateMetadata({
+    params,
+}: PageProps): Promise<Metadata> {
+    const resolvedParams = await params;
+    const category = categories.find((c) => c.slug === resolvedParams.slug);
+
+    if (!category) return { title: "Категория не найдена | ТСК ПРОГРЕСС" };
+
+    return {
+        title: `${category.name} — каталог профессионального инструмента | ТСК ПРОГРЕСС`,
+        description: `Большой выбор промышленного оборудования в категории «${category.name}». Официальные поставки, доступные оптовые цены, быстрая доставка со склада ТСК ПРОГРЕСС.`,
+    };
+}
 
 export default async function CategoryPage({
     params,
@@ -32,12 +48,11 @@ export default async function CategoryPage({
     const currentPage = Number(resolvedSearchParams.page) || 1;
     const currentSort = resolvedSearchParams.sort || "default";
 
-    // 1. Фильтруем товары этой категории
     const categoryProducts = products.filter(
         (p) => p.categoryId === category.id,
     );
 
-    // Логика СОРТИРОВКИ
+    // Логика сортировки на const (без переназначения ссылки)
     if (currentSort === "price_asc") {
         categoryProducts.sort((a, b) => (a.price || 0) - (b.price || 0));
     } else if (currentSort === "price_desc") {
@@ -47,7 +62,6 @@ export default async function CategoryPage({
     const totalItems = categoryProducts.length;
     const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
 
-    // 3. Пагинация
     const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
     const endIndex = startIndex + ITEMS_PER_PAGE;
     const paginatedProducts = categoryProducts.slice(startIndex, endIndex);
@@ -65,7 +79,6 @@ export default async function CategoryPage({
                 Назад в каталог
             </Link>
 
-            {/* Шапка категории с селектором сортировки */}
             <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 border-b border-border-main pb-4 gap-4">
                 <div>
                     <h1 className="text-3xl font-bold text-dark mb-2">
@@ -76,7 +89,6 @@ export default async function CategoryPage({
                     </span>
                 </div>
 
-                {/* Серверный дропдаун сортировки (работает через ссылки) */}
                 <div className="relative inline-flex items-center gap-2 bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-sm">
                     <ArrowDownUp size={16} className="text-gray-400" />
                     <span className="text-gray-500 mr-2">Сортировка:</span>
@@ -134,7 +146,6 @@ export default async function CategoryPage({
                 </div>
             )}
 
-            {/* Блок пагинации */}
             {totalPages > 1 && (
                 <div className="flex items-center justify-center gap-2 mt-12 pt-6 border-t border-border-main">
                     {currentPage > 1 ? (
