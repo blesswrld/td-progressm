@@ -10,7 +10,7 @@ interface CatalogItem {
     price: number;
 }
 
-const catalog = catalogJson as CatalogItem[];
+const rawCatalog = catalogJson as CatalogItem[];
 
 function slugify(text: string) {
     const cyrillic: Record<string, string> = {
@@ -60,8 +60,37 @@ function slugify(text: string) {
         .replace(/-+/g, "-");
 }
 
+const excludedKeywords = ["садов", "крепеж", "автомобил"];
+
+function cleanGroupName(name: string): string {
+    if (!name) return "";
+    return name.replace(/\s*без скидки\s*/gi, "").trim();
+}
+
+function isExcluded(groupName: string): boolean {
+    const lowerName = groupName.toLowerCase();
+    return excludedKeywords.some((keyword) => lowerName.includes(keyword));
+}
+
+const processedCatalog: CatalogItem[] = [];
+
+for (const item of rawCatalog) {
+    if (!item.group) continue;
+
+    const cleanedGroup = cleanGroupName(item.group);
+
+    if (isExcluded(cleanedGroup)) {
+        continue;
+    }
+
+    processedCatalog.push({
+        ...item,
+        group: cleanedGroup,
+    });
+}
+
 const uniqueGroups = Array.from(
-    new Set(catalog.map((p) => p.group).filter(Boolean)),
+    new Set(processedCatalog.map((p) => p.group).filter(Boolean)),
 );
 
 export const categories = uniqueGroups.map((group, index) => ({
@@ -70,7 +99,7 @@ export const categories = uniqueGroups.map((group, index) => ({
     slug: slugify(group),
 }));
 
-export const products = catalog.map((p) => {
+export const products = processedCatalog.map((p) => {
     const category = categories.find((c) => c.name === p.group);
     return {
         ...p,

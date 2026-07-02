@@ -89,7 +89,7 @@ export default function Home() {
                 </div>
 
                 <div className="relative">
-                    <div className="absolute top-1/2 left-0 w-full -translate-y-1/2 h-24 -z-10 hidden md:block overflow-hidden opacity-40 pointer-events-none">
+                    <div className="absolute top-1/2 left-0 w-full -translate-y-1/2 h-24 -z-10 hidden min-[1040px]:block overflow-hidden opacity-40 pointer-events-none">
                         <svg
                             className="w-full h-full text-primary"
                             viewBox="0 0 100 20"
@@ -106,7 +106,15 @@ export default function Home() {
                         </svg>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+                    <div
+                        className={`grid grid-cols-1 sm:grid-cols-2 gap-4 ${
+                            categories.slice(0, 8).length === 2
+                                ? "max-w-3xl mx-auto"
+                                : categories.slice(0, 8).length === 3
+                                  ? "min-[1040px]:grid-cols-3 max-w-5xl mx-auto"
+                                  : "min-[1040px]:grid-cols-4"
+                        }`}
+                    >
                         {categories.slice(0, 8).map((category, index) => {
                             const count = products.filter(
                                 (p) => p.categoryId === category.id,
