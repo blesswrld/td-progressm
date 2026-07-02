@@ -1,15 +1,15 @@
 "use client";
 
-import Image from "next/image";
 import { useState } from "react";
 import Link from "next/link";
+import { Copy, Check } from "lucide-react";
 import RequestModal from "./RequestModal";
 
 interface ProductCardProps {
     id: string;
     name: string;
     article: string;
-    image?: string | null;
+    image?: string;
     price?: number;
 }
 
@@ -18,58 +18,87 @@ export default function ProductCard({
     name,
     article,
     image,
-    price,
 }: ProductCardProps) {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [copied, setCopied] = useState(false);
+
+    const handleCopy = (e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        navigator.clipboard.writeText(article);
+        setCopied(true);
+
+        setTimeout(() => setCopied(false), 2000);
+    };
 
     return (
         <>
-            <div className="bg-light border border-border-main rounded-xl p-5 flex flex-col justify-between h-full transition-all hover:shadow-xl hover:border-primary/50 group">
-                <Link
-                    href={`/product/${id}`}
-                    className="block flex-grow cursor-pointer mb-4"
-                >
-                    <div className="w-full aspect-square relative mb-4 bg-white rounded-lg overflow-hidden flex items-center justify-center p-2 border border-gray-100">
-                        {image ? (
-                            <Image
-                                src={image}
-                                alt={name}
-                                fill
-                                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 33vw, 25vw"
-                                className="object-contain w-full h-full group-hover:scale-105 transition-transform duration-500 p-2"
-                                loading="lazy"
-                            />
-                        ) : (
-                            <div className="text-gray-300 flex flex-col items-center justify-center h-full">
-                                <span className="text-4xl block mb-2">📦</span>
-                                <span className="text-xs">Нет фото</span>
-                            </div>
-                        )}
-                    </div>
+            <Link
+                href={`/product/${id}`}
+                className="group bg-white border border-gray-200 rounded-2xl p-4 flex flex-col justify-between hover:shadow-xl hover:border-primary/30 transition-all duration-300 relative"
+            >
+                <div className="w-full aspect-square bg-bg-light rounded-xl flex items-center justify-center p-4 mb-4 overflow-hidden relative border border-gray-50">
+                    {image ? (
+                        // eslint-disable-next-line
+                        <img
+                            src={image}
+                            alt={name}
+                            className="object-contain w-full h-full group-hover:scale-105 transition-transform duration-300 mix-blend-multiply"
+                        />
+                    ) : (
+                        <span className="text-4xl">📦</span>
+                    )}
+                </div>
 
+                <div className="grow flex flex-col justify-between">
                     <div>
-                        <p className="text-xs text-gray-400 mb-2 font-mono">
-                            Арт: {article}
-                        </p>
-                        <h3 className="font-semibold text-sm md:text-base text-dark leading-snug group-hover:text-primary transition-colors line-clamp-3">
+                        <div className="flex items-center justify-between mb-2">
+                            <span className="text-xs font-mono text-gray-400 bg-gray-50 px-2 py-0.5 rounded border border-gray-100">
+                                Арт: {article}
+                            </span>
+                            <button
+                                onClick={handleCopy}
+                                title="Скопировать артикул"
+                                className={`p-1.5 rounded-md border transition-all duration-200 active:scale-90 ${
+                                    copied
+                                        ? "bg-green-50 border-green-200 text-green-600"
+                                        : "bg-white border-gray-200 text-gray-400 hover:text-dark hover:bg-gray-50"
+                                }`}
+                            >
+                                {copied ? (
+                                    <Check size={13} />
+                                ) : (
+                                    <Copy size={13} />
+                                )}
+                            </button>
+                        </div>
+
+                        <h3 className="font-bold text-dark text-sm sm:text-base line-clamp-2 leading-tight group-hover:text-primary transition-colors mb-3">
                             {name}
                         </h3>
                     </div>
-                </Link>
 
-                <div className="mt-4 flex items-center justify-between mb-4">
-                    <span className="text-sm font-bold text-gray-400 bg-gray-50 px-3 py-1 rounded-md border border-gray-100">
-                        Цена по запросу
-                    </span>
+                    <div>
+                        <div className="mb-4">
+                            <span className="text-[11px] font-bold text-gray-400 bg-gray-50 px-2.5 py-1 rounded border border-gray-100 uppercase tracking-wide inline-block">
+                                Цена по запросу
+                            </span>
+                        </div>
+
+                        <button
+                            onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                setIsModalOpen(true);
+                            }}
+                            className="w-full border-2 border-primary text-primary font-bold py-2 rounded-xl hover:bg-primary hover:text-white transition-all duration-200 active:scale-95 text-sm cursor-pointer"
+                        >
+                            Узнать цену
+                        </button>
+                    </div>
                 </div>
-
-                <button
-                    onClick={() => setIsModalOpen(true)}
-                    className="w-full border-2 border-primary text-primary font-bold py-2.5 rounded-lg hover:bg-primary hover:text-light transition-all duration-200 active:scale-95 active:bg-primary/90 active:border-primary/90 active:text-white text-sm"
-                >
-                    Узнать цену
-                </button>
-            </div>
+            </Link>
 
             <RequestModal
                 isOpen={isModalOpen}

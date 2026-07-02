@@ -85,7 +85,7 @@ export default async function CategoryPage({
                             id={product.id}
                             name={product.name}
                             article={product.article}
-                            image={product.image}
+                            image={product.image ?? undefined}
                             price={product.price}
                         />
                     ))}
