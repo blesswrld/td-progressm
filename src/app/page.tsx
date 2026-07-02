@@ -107,11 +107,11 @@ export default function Home() {
                     </div>
 
                     <div
-                        className={`grid grid-cols-1 sm:grid-cols-2 gap-4 ${
+                        className={`grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-8 ${
                             categories.slice(0, 8).length === 2
-                                ? "max-w-3xl mx-auto"
+                                ? "max-w-5xl mx-auto"
                                 : categories.slice(0, 8).length === 3
-                                  ? "min-[1040px]:grid-cols-3 max-w-5xl mx-auto"
+                                  ? "min-[1040px]:grid-cols-3 max-w-6xl mx-auto"
                                   : "min-[1040px]:grid-cols-4"
                         }`}
                     >
@@ -132,23 +132,23 @@ export default function Home() {
                                 <Link
                                     key={category.id}
                                     href={`/catalog/${category.slug}`}
-                                    className="group relative bg-white/90 backdrop-blur-md border border-gray-200 rounded-2xl p-6 transition-all duration-300 hover:-translate-y-2 hover:border-primary/50 hover:shadow-xl hover:shadow-primary/10 active:scale-95 overflow-hidden flex flex-col justify-between h-40 z-10"
+                                    className="group relative bg-white/90 backdrop-blur-md border border-gray-200 rounded-3xl p-6 md:p-8 transition-all duration-300 hover:-translate-y-2 hover:border-primary/50 hover:shadow-xl hover:shadow-primary/10 active:scale-95 overflow-hidden flex flex-col justify-between min-h-[12rem] z-10"
                                 >
-                                    <div className="absolute -right-6 -top-6 w-24 h-24 bg-gray-50 rounded-full group-hover:bg-primary/5 transition-colors duration-500 z-0"></div>
+                                    <div className="absolute -right-6 -top-6 w-32 h-32 bg-gray-50 rounded-full group-hover:bg-primary/5 transition-colors duration-500 z-0"></div>
 
                                     <div className="relative z-10 flex justify-between items-start mb-4">
-                                        <div className="p-2 bg-gray-50 rounded-lg group-hover:bg-primary/10 group-hover:text-primary transition-colors text-gray-500">
-                                            <Icon size={24} strokeWidth={1.5} />
+                                        <div className="p-3 bg-gray-50 rounded-xl group-hover:bg-primary/10 group-hover:text-primary transition-colors text-gray-500">
+                                            <Icon size={28} strokeWidth={1.5} />
                                         </div>
                                         {count > 0 && (
-                                            <span className="text-xs font-medium text-gray-400 bg-white border border-gray-100 px-2 py-1 rounded-full shadow-sm">
+                                            <span className="text-sm font-medium text-gray-400 bg-white border border-gray-100 px-3 py-1 rounded-full shadow-sm">
                                                 {count}
                                             </span>
                                         )}
                                     </div>
 
                                     <div className="relative z-10">
-                                        <span className="font-bold text-dark group-hover:text-primary transition-colors text-base md:text-lg line-clamp-2 leading-tight">
+                                        <span className="font-bold text-dark group-hover:text-primary transition-colors text-lg md:text-xl line-clamp-2 leading-tight">
                                             {category.name}
                                         </span>
                                     </div>
