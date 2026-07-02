@@ -15,6 +15,10 @@ export const metadata: Metadata = {
     title: "ТСК ПРОГРЕСС | Каталог строительных материалов",
     description:
         "Комплексные поставки строительных материалов от фундамента до кровли. Работаем напрямую от производителей.",
+    icons: {
+        icon: "/progressm-logo.png",
+        apple: "/progressm-logo.png",
+    },
 };
 
 export default function RootLayout({
@@ -29,7 +33,7 @@ export default function RootLayout({
             >
                 <Header />
 
-                <div className="flex-grow">{children}</div>
+                <div className="grow">{children}</div>
 
                 <Footer />
             </body>
