@@ -16,12 +16,12 @@ export default function AboutPage() {
             </Link>
 
             <h1 className="text-3xl md:text-4xl font-bold text-dark mb-8">
-                О компании ТСК ПРОГРЕСС
+                О компании ТД Прогресс
             </h1>
 
             <div className="bg-white rounded-2xl p-8 border border-border-main shadow-sm space-y-6 text-text-main leading-relaxed">
                 <p>
-                    <strong>ТСК ПРОГРЕСС</strong> — надежный партнер и поставщик
+                    <strong>ТД Прогресс</strong> — надежный партнер и поставщик
                     профессионального строительного инструмента, оборудования и
                     расходных материалов на территории РФ.
                 </p>

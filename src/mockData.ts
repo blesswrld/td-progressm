@@ -6,6 +6,8 @@ interface CatalogItem {
     name: string;
     categoryId: string;
     group: string;
+    folder: string;
+    folderSlug: string;
     image: string | null;
     price: number;
 }
@@ -67,25 +69,36 @@ function cleanGroupName(name: string): string {
     return name.replace(/\s*без скидки\s*/gi, "").trim();
 }
 
-function isExcluded(groupName: string): boolean {
-    const lowerName = groupName.toLowerCase();
-    return excludedKeywords.some((keyword) => lowerName.includes(keyword));
+function isExcluded(text: string): boolean {
+    if (!text) return false;
+    const lowerText = text.toLowerCase();
+    return excludedKeywords.some((keyword) => lowerText.includes(keyword));
 }
 
-const processedCatalog: CatalogItem[] = [];
+function getFolderName(name: string): string {
+    if (!name) return "Разное";
+    const firstWord = name.trim().split(" ")[0];
+    const cleanWord = firstWord.replace(/[^a-zA-Zа-яА-ЯёЁ]/g, "");
+    if (!cleanWord) return "Разное";
+    return cleanWord.charAt(0).toUpperCase() + cleanWord.slice(1).toLowerCase();
+}
+
+// eslint-disable-next-line
+const processedCatalog: any[] = [];
 
 for (const item of rawCatalog) {
     if (!item.group) continue;
 
     const cleanedGroup = cleanGroupName(item.group);
 
-    if (isExcluded(cleanedGroup)) {
+    if (isExcluded(cleanedGroup) || isExcluded(item.name)) {
         continue;
     }
 
     processedCatalog.push({
         ...item,
         group: cleanedGroup,
+        folder: getFolderName(item.name),
     });
 }
 
@@ -99,10 +112,21 @@ export const categories = uniqueGroups.map((group, index) => ({
     slug: slugify(group),
 }));
 
+const uniqueFolders = Array.from(
+    new Set(processedCatalog.map((p) => p.folder).filter(Boolean)),
+).sort((a, b) => (a as string).localeCompare(b as string, "ru"));
+
+export const folders = uniqueFolders.map((folder, index) => ({
+    id: `folder-${index + 1}`,
+    name: folder,
+    slug: slugify(folder as string),
+}));
+
 export const products = processedCatalog.map((p) => {
     const category = categories.find((c) => c.name === p.group);
     return {
         ...p,
         categoryId: category ? category.id : "1",
+        folderSlug: slugify(p.folder),
     };
 });

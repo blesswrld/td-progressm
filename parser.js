@@ -6,7 +6,6 @@ const path = require("path");
 const INPUT_FILE = path.join(__dirname, "export.xml");
 const OUTPUT_FILE = path.join(__dirname, "src", "catalog.json");
 
-// Стоп-слова для жесткой фильтрации
 const stopWords = ["садов", "крепеж", "автомобиль", "автоинструмент"];
 
 async function processCatalog() {
@@ -41,14 +40,13 @@ async function processCatalog() {
         if (line.includes("</offer>")) {
             inOffer = false;
 
-            // Вытаскиваем нужные данные с помощью регулярок
             const idMatch = offerStr.match(/<offer id="([^"]+)"/);
             const skuMatch = offerStr.match(/<sku>(.*?)<\/sku>/);
             const nameMatch = offerStr.match(/<name>(.*?)<\/name>/);
             const catIdMatch = offerStr.match(
                 /<categoryId>(.*?)<\/categoryId>/,
             );
-            const picMatch = offerStr.match(/<picture>(.*?)<\/picture>/); // берем первую картинку
+            const picMatch = offerStr.match(/<picture>(.*?)<\/picture>/);
             const groupMatch = offerStr.match(
                 /<param name="Группа товаров">(.*?)<\/param>/,
             );
@@ -57,7 +55,6 @@ async function processCatalog() {
             const name = nameMatch ? nameMatch[1] : "";
             const group = groupMatch ? groupMatch[1] : "";
 
-            // Проверяем на стоп-слова
             const isBanned = stopWords.some(
                 (word) =>
                     name.toLowerCase().includes(word) ||
@@ -83,7 +80,6 @@ async function processCatalog() {
         }
     }
 
-    // Сохраняем результат
     fs.writeFileSync(OUTPUT_FILE, JSON.stringify(products, null, 2));
     console.log(`\n✅ Готово!`);
     console.log(`Добавлено товаров: ${products.length}`);

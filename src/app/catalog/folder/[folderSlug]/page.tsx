@@ -7,7 +7,7 @@ import { ArrowLeft, ChevronLeft, ChevronRight } from "lucide-react";
 import type { Metadata } from "next";
 
 interface PageProps {
-    params: Promise<{ slug: string }>;
+    params: Promise<{ folderSlug: string }>;
     searchParams: Promise<{ page?: string }>;
 }
 
@@ -17,25 +17,31 @@ export async function generateMetadata({
     params,
 }: PageProps): Promise<Metadata> {
     const resolvedParams = await params;
-    const category = categories.find((c) => c.slug === resolvedParams.slug);
-    if (!category) return { title: "Категория не найдена | ТД Прогресс" };
-    return { title: `${category.name} — купить оптом | ТД Прогресс` };
+    const folder = folders.find((f) => f.slug === resolvedParams.folderSlug);
+    if (!folder) return { title: "Папка не найдена | ТД Прогресс" };
+    return { title: `${folder.name} — купить оптом | ТД Прогресс` };
 }
 
-export default async function CategoryPage({
-    params,
-    searchParams,
-}: PageProps) {
+export default async function FolderPage({ params, searchParams }: PageProps) {
     const resolvedParams = await params;
     const resolvedSearchParams = await searchParams;
 
-    const category = categories.find((c) => c.slug === resolvedParams.slug);
-    if (!category) notFound();
+    const currentFolder = folders.find(
+        (f) => f.slug === resolvedParams.folderSlug,
+    );
+    if (!currentFolder) notFound();
 
     const currentPage = Number(resolvedSearchParams.page) || 1;
 
+    const folderProducts = products.filter(
+        (p) => p.folderSlug === currentFolder.slug,
+    );
+    const parentCategory = categories.find(
+        (c) => c.id === folderProducts[0]?.categoryId,
+    );
+
     const categoryProducts = products.filter(
-        (p) => p.categoryId === category.id,
+        (p) => p.categoryId === parentCategory?.id,
     );
     const categoryFolderSlugs = Array.from(
         new Set(categoryProducts.map((p) => p.folderSlug)),
@@ -44,12 +50,12 @@ export default async function CategoryPage({
         categoryFolderSlugs.includes(f.slug),
     );
 
-    const totalItems = categoryProducts.length;
+    const totalItems = folderProducts.length;
     const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
 
     const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
     const endIndex = startIndex + ITEMS_PER_PAGE;
-    const paginatedProducts = categoryProducts.slice(startIndex, endIndex);
+    const paginatedProducts = folderProducts.slice(startIndex, endIndex);
 
     return (
         <main className="min-h-screen p-4 sm:p-6 md:p-8 max-w-7xl mx-auto w-full flex flex-col">
@@ -63,7 +69,7 @@ export default async function CategoryPage({
 
             <div className="flex flex-col mb-8 border-b border-border-main pb-6 gap-3">
                 <h1 className="text-3xl md:text-4xl font-bold text-dark break-words leading-tight">
-                    {category.name}
+                    {currentFolder.name}
                 </h1>
                 <span className="text-sm font-medium px-4 py-1.5 bg-white border border-gray-200 shadow-sm rounded-full text-text-main inline-block w-fit">
                     {totalItems} товаров
@@ -72,9 +78,10 @@ export default async function CategoryPage({
 
             <div className="flex flex-col lg:flex-row gap-8 items-start">
                 <CategorySidebar
-                    title="Подкатегории"
+                    title={parentCategory?.name || "Подкатегории"}
                     folders={categoryFolders}
                     products={categoryProducts}
+                    currentFolderSlug={currentFolder.slug}
                 />
 
                 <div className="w-full lg:w-3/4 flex flex-col">
@@ -103,7 +110,7 @@ export default async function CategoryPage({
                         <div className="flex items-center justify-center gap-2 mt-12 pt-6 border-t border-border-main">
                             {currentPage > 1 ? (
                                 <Link
-                                    href={`/catalog/${category.slug}?page=${currentPage - 1}`}
+                                    href={`/catalog/folder/${currentFolder.slug}?page=${currentPage - 1}`}
                                     className="p-3 rounded-lg border border-border-main hover:border-primary text-dark hover:text-primary transition-all duration-200 active:scale-90 active:bg-gray-50 bg-white shadow-sm"
                                 >
                                     <ChevronLeft size={18} />
@@ -125,7 +132,7 @@ export default async function CategoryPage({
                                         return (
                                             <Link
                                                 key={pageNum}
-                                                href={`/catalog/${category.slug}?page=${pageNum}`}
+                                                href={`/catalog/folder/${currentFolder.slug}?page=${pageNum}`}
                                                 className={`px-4 py-2.5 text-sm font-bold rounded-lg border transition-all duration-200 active:scale-90 shadow-sm ${pageNum === currentPage ? "bg-primary border-primary text-white shadow-md shadow-primary/20" : "bg-white border-border-main text-dark hover:border-primary hover:text-primary active:bg-gray-50"}`}
                                             >
                                                 {pageNum}
@@ -150,7 +157,7 @@ export default async function CategoryPage({
 
                             {currentPage < totalPages ? (
                                 <Link
-                                    href={`/catalog/${category.slug}?page=${currentPage + 1}`}
+                                    href={`/catalog/folder/${currentFolder.slug}?page=${currentPage + 1}`}
                                     className="p-3 rounded-lg border border-border-main hover:border-primary text-dark hover:text-primary transition-all duration-200 active:scale-90 active:bg-gray-50 bg-white shadow-sm"
                                 >
                                     <ChevronRight size={18} />

@@ -13,7 +13,7 @@ export default function Footer() {
                         <Link href="/" className="inline-block mb-6">
                             <img
                                 src="/progressm-logo.png"
-                                alt="ТСК ПРОГРЕСС"
+                                alt="ТД Прогресс"
                                 className="h-12 w-auto object-contain"
                             />
                         </Link>
@@ -101,10 +101,10 @@ export default function Footer() {
                                 />
                                 <div>
                                     <a
-                                        href="tel:+78000000000"
+                                        href="tel:+79670356244"
                                         className="block text-light font-bold hover:text-primary transition-colors text-base mb-1"
                                     >
-                                        8 (800) 000-00-00
+                                        8 (967) 035-62-44
                                     </a>
                                     <span className="text-xs">
                                         Пн-Пт: 9:00 - 18:00
@@ -117,10 +117,10 @@ export default function Footer() {
                                     className="text-primary shrink-0"
                                 />
                                 <a
-                                    href="mailto:info@progressm.ru"
+                                    href="mailto:d.zhmakin@tskprogress.ru"
                                     className="hover:text-primary transition-colors"
                                 >
-                                    info@progressm.ru
+                                    d.zhmakin@tskprogress.ru
                                 </a>
                             </li>
                             <li className="flex items-start gap-3">
@@ -129,7 +129,8 @@ export default function Footer() {
                                     className="text-primary shrink-0 mt-0.5"
                                 />
                                 <span>
-                                    г. Москва, ул. Примерная, д. 1, офис 100
+                                    г. Москва, ул. Рябиновая, 26с1, офис 504. БЦ
+                                    West Plaza
                                 </span>
                             </li>
                         </ul>
@@ -138,7 +139,7 @@ export default function Footer() {
 
                 <div className="pt-8 border-t border-gray-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gray-500">
                     <p>
-                        © {new Date().getFullYear()} ТСК ПРОГРЕСС. Все права
+                        © {new Date().getFullYear()} ТД Прогресс. Все права
                         защищены.
                     </p>
                 </div>

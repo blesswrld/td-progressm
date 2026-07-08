@@ -13,47 +13,43 @@ import ContactSection from "@/components/ContactSection";
 export default function Home() {
     return (
         <main className="min-h-screen p-4 sm:p-6 md:p-8 max-w-7xl mx-auto w-full">
-            <section className="mb-12 bg-dark rounded-3xl p-8 md:p-16 flex flex-col justify-center items-start relative overflow-hidden shadow-xl">
-                <div className="relative z-10 max-w-2xl">
-                    <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight break-all">
+            <section className="mb-12 sm:mb-16 bg-dark rounded-2xl sm:rounded-3xl p-5 sm:p-8 md:p-12 lg:p-16 flex flex-col justify-center items-start relative overflow-hidden shadow-xl">
+                <div className="relative z-10 w-full max-w-3xl">
+                    <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 sm:mb-8 leading-tight sm:text-balance break-words">
                         Профессиональный инструмент и оборудование
                     </h1>
-                    <p className="text-lg text-gray-400 mb-8 max-w-lg">
-                        Надежные поставки для строительных объектов и
-                        производств по всей России.
-                    </p>
+
+                    <div className="bg-white/10 backdrop-blur-sm border border-white/10 p-5 sm:p-6 rounded-2xl mb-6 sm:mb-8 w-full">
+                        <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-white mb-3 leading-snug">
+                            Комплексные поставки для любого проекта
+                        </h2>
+                        <p className="text-sm sm:text-base md:text-lg text-gray-300 leading-relaxed mb-4">
+                            В нашем ассортименте есть{" "}
+                            <strong className="text-primary font-bold">
+                                весь спектр строительных материалов от
+                                фундамента до кровли
+                            </strong>{" "}
+                            под любой запрос!
+                        </p>
+                        <p className="text-sm sm:text-base md:text-lg text-gray-300 leading-relaxed">
+                            Мы работаем напрямую от производителей, поэтому
+                            можем дать лучшие цены и условия для каждого
+                            партнера.
+                        </p>
+                    </div>
+
                     <Link
                         href="/catalog"
-                        className="inline-flex items-center gap-2 bg-primary hover:bg-primary/90 text-white font-bold py-4 px-8 rounded-xl transition-all duration-200 active:scale-95 shadow-lg shadow-primary/20"
+                        className="inline-flex justify-center items-center gap-2 bg-primary hover:bg-primary/90 text-white font-bold py-3.5 px-6 sm:py-4 sm:px-8 rounded-xl transition-all duration-200 active:scale-95 shadow-lg shadow-primary/20 w-full sm:w-auto text-center text-sm sm:text-base"
                     >
                         Перейти в каталог
                         <ArrowRight size={20} />
                     </Link>
                 </div>
-                <div className="absolute right-0 bottom-0 opacity-20 pointer-events-none translate-x-1/4 translate-y-1/4 hidden md:block">
-                    <WrenchIcon size={400} />
-                </div>
-            </section>
 
-            <section className="mb-16 bg-white rounded-3xl p-8 sm:p-12 border border-gray-100 shadow-sm relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none"></div>
-
-                <div className="relative z-10 max-w-4xl">
-                    <h2 className="text-2xl md:text-3xl font-bold text-dark mb-6 leading-tight">
-                        Комплексные поставки для любого проекта
-                    </h2>
-                    <p className="text-lg text-text-main leading-relaxed mb-6">
-                        В нашем ассортименте есть{" "}
-                        <strong className="text-primary font-bold">
-                            весь спектр строительных материалов от фундамента до
-                            кровли
-                        </strong>{" "}
-                        под любой запрос!
-                    </p>
-                    <p className="text-lg text-text-main leading-relaxed">
-                        Мы работаем напрямую от производителей, поэтому можем
-                        дать лучшие цены и условия для каждого партнера.
-                    </p>
+                {/* Декорация */}
+                <div className="absolute right-0 bottom-0 opacity-10 pointer-events-none translate-x-1/4 translate-y-1/4 hidden lg:block">
+                    <WrenchIcon size={500} />
                 </div>
             </section>
 

@@ -16,10 +16,10 @@ export async function generateMetadata({
     const resolvedParams = await params;
     const product = products.find((p) => p.id === resolvedParams.id);
 
-    if (!product) return { title: "Товар не найден | ТСК ПРОГРЕСС" };
+    if (!product) return { title: "Товар не найден | ТД Прогресс" };
 
-    const title = `${product.name} — купить по выгодной цене | ТСК ПРОГРЕСС`;
-    const description = `Заказывайте ${product.name} (артикул: ${product.article}) с доставкой. Низкие цены, официальная гарантия, профессиональный инструмент от компании ТСК ПРОГРЕСС.`;
+    const title = `${product.name} — купить по выгодной цене | ТД Прогресс`;
+    const description = `Заказывайте ${product.name} (артикул: ${product.article}) с доставкой. Низкие цены, официальная гарантия, профессиональный инструмент от компании ТД Прогресс.`;
 
     return {
         title,
@@ -28,7 +28,7 @@ export async function generateMetadata({
             product.name,
             product.article,
             "купить инструмент",
-            "ТСК ПРОГРЕСС",
+            "ТД Прогресс",
             product.group,
         ],
         openGraph: {
@@ -73,7 +73,7 @@ export default async function ProductPage({ params }: PageProps) {
         category: category?.name || product.group,
         brand: {
             "@type": "Brand",
-            name: "ТСК ПРОГРЕСС",
+            name: "ТД Прогресс",
         },
         offers: {
             "@type": "Offer",

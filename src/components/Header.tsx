@@ -10,7 +10,7 @@ export default function Header() {
                 <Link href="/" className="flex-shrink-0">
                     <Image
                         src="/progressm-logo.png"
-                        alt="ТСК ПРОГРЕСС"
+                        alt="ТД Прогресс"
                         width={160}
                         height={50}
                         className="h-12 sm:h-16 w-auto object-contain"
@@ -20,7 +20,7 @@ export default function Header() {
 
                 <div className="flex flex-col items-end">
                     <a
-                        href="tel:+78000000000"
+                        href="tel:+79670356244"
                         className="flex items-center gap-1.5 sm:gap-2 font-bold text-sm sm:text-lg hover:text-primary transition-colors"
                     >
                         <Phone
@@ -28,7 +28,7 @@ export default function Header() {
                             strokeWidth={2.5}
                             className="w-4 h-4 sm:w-5 sm:h-5"
                         />
-                        <span>8 (800) 000-00-00</span>
+                        <span>8 (967) 035-62-44</span>
                     </a>
                     <span className="hidden sm:block text-xs text-gray-400">
                         Пн-Пт: 9:00 - 18:00

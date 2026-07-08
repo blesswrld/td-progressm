@@ -21,7 +21,7 @@ export async function GET() {
 
         const rawData = await response.json();
 
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        // eslint-disable-next-line
         let rawProducts: any[] = [];
 
         if (
