@@ -2,7 +2,7 @@ import { categories, products } from "@/mockData";
 import { MetadataRoute } from "next";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-    const baseUrl = "https://instrument-analog.ru"; // Заменить на реальный домен сайта
+    const baseUrl = "https://tdprogressm.ru";
 
     const categoryUrls = categories.map((cat) => ({
         url: `${baseUrl}/catalog/${cat.slug}`,

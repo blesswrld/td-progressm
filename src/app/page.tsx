@@ -47,7 +47,6 @@ export default function Home() {
                     </Link>
                 </div>
 
-                {/* Декорация */}
                 <div className="absolute right-0 bottom-0 opacity-10 pointer-events-none translate-x-1/4 translate-y-1/4 hidden lg:block">
                     <WrenchIcon size={500} />
                 </div>
@@ -85,20 +84,49 @@ export default function Home() {
                 </div>
 
                 <div className="relative">
-                    <div className="absolute top-1/2 left-0 w-full -translate-y-1/2 h-24 -z-10 hidden min-[1040px]:block overflow-hidden opacity-40 pointer-events-none">
+                    <div className="absolute top-1/2 left-0 w-full -translate-y-1/2 z-0 overflow-hidden pointer-events-none opacity-30">
                         <svg
-                            className="w-full h-full text-primary"
-                            viewBox="0 0 100 20"
-                            preserveAspectRatio="none"
+                            viewBox="0 0 1440 320"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="w-full h-auto min-w-[1000px]"
                         >
                             <path
-                                d="M0,10 Q12.5,20 25,10 T50,10 T75,10 T100,10"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="0.5"
-                                strokeDasharray="2 2"
-                                className="animate-flow"
-                            />
+                                d="M-100,160 C200,-50 500,350 1540,160"
+                                stroke="#eab308"
+                                strokeWidth="3"
+                                strokeLinecap="round"
+                                strokeDasharray="2000"
+                                strokeDashoffset="2000"
+                            >
+                                <animate
+                                    attributeName="stroke-dashoffset"
+                                    values="2000;0"
+                                    dur="3s"
+                                    fill="freeze"
+                                    calcMode="spline"
+                                    keySplines="0.4 0 0.2 1"
+                                />
+                            </path>
+
+                            <path
+                                d="M-100,160 C350,300 400,-10 1540,160"
+                                stroke="#eab308"
+                                strokeWidth="1.5"
+                                strokeLinecap="round"
+                                strokeDasharray="2000"
+                                strokeDashoffset="2000"
+                                opacity="0.5"
+                            >
+                                <animate
+                                    attributeName="stroke-dashoffset"
+                                    values="2000;0"
+                                    dur="4s"
+                                    fill="freeze"
+                                    calcMode="spline"
+                                    keySplines="0.4 0 0.2 1"
+                                />
+                            </path>
                         </svg>
                     </div>
 

@@ -7,7 +7,6 @@ export default function robots(): MetadataRoute.Robots {
             allow: "/",
             disallow: ["/api/", "/*?*sort=", "/*?*page=", "/.next/", "/out/"],
         },
-        // Заменить на реальный домен сайта
-        sitemap: "https://instrument-analog.ru/sitemap.xml",
+        sitemap: "https://tdprogressm.ru/sitemap.xml",
     };
 }

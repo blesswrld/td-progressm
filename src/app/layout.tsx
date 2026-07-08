@@ -12,6 +12,7 @@ const montserrat = Montserrat({
 });
 
 export const metadata: Metadata = {
+    metadataBase: new URL("https://tdprogressm.ru"),
     title: "ТД Прогресс — Профессиональный инструмент",
     description:
         "Комплексные поставки строительных материалов от фундамента до кровли. Работаем напрямую от производителей.",
