@@ -68,7 +68,7 @@ export default async function FolderPage({ params, searchParams }: PageProps) {
             </Link>
 
             <div className="flex flex-col mb-8 border-b border-border-main pb-6 gap-3">
-                <h1 className="text-3xl md:text-4xl font-bold text-dark break-words leading-tight">
+                <h1 className="text-3xl md:text-4xl font-bold text-dark wrap-break-word leading-tight">
                     {currentFolder.name}
                 </h1>
                 <span className="text-sm font-medium px-4 py-1.5 bg-white border border-gray-200 shadow-sm rounded-full text-text-main inline-block w-fit">

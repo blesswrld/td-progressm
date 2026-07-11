@@ -7,7 +7,7 @@ export default function Header() {
     return (
         <header className="bg-dark text-light py-3 sm:py-4 border-b border-gray-800 sticky top-0 z-50">
             <div className="max-w-7xl mx-auto px-4 sm:px-8 flex flex-wrap items-center justify-between gap-y-4 gap-x-4">
-                <Link href="/" className="flex-shrink-0">
+                <Link href="/" className="shrink-0">
                     <Image
                         src="/progressm-logo.png"
                         alt="ТД Прогресс"

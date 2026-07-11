@@ -43,7 +43,7 @@ export default function InteractiveHero() {
 
     return (
         <section className="w-full">
-            <div className="relative w-full rounded-2xl sm:rounded-3xl overflow-hidden bg-white/5 backdrop-blur-md border border-white/10 shadow-2xl flex flex-col lg:flex-row min-h-[auto] lg:min-h-[500px] transition-all duration-500">
+            <div className="relative w-full rounded-2xl sm:rounded-3xl overflow-hidden bg-white/5 backdrop-blur-md border border-white/10 shadow-2xl flex flex-col lg:flex-row min-h-auto lg:min-h-125 transition-all duration-500">
                 <div className="flex-1 p-6 sm:p-10 lg:p-16 flex flex-col justify-center relative z-10 text-light">
                     <div
                         className="animate-in fade-in slide-in-from-bottom-4 duration-500"
@@ -64,7 +64,7 @@ export default function InteractiveHero() {
                     </div>
                 </div>
 
-                <div className="w-full lg:w-[500px] grid grid-cols-1 sm:grid-cols-2 relative z-10 border-t lg:border-l lg:border-t-0 border-white/10 bg-dark/40 backdrop-blur-sm">
+                <div className="w-full lg:w-125 grid grid-cols-1 sm:grid-cols-2 relative z-10 border-t lg:border-l lg:border-t-0 border-white/10 bg-dark/40 backdrop-blur-sm">
                     {slides.map((slide, index) => {
                         const isActive = activeSlide === index;
                         const Icon = slide.icon;

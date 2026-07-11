@@ -73,8 +73,8 @@ export default function ContactSection() {
 
     return (
         <section className="mb-16 bg-dark rounded-3xl overflow-hidden relative shadow-2xl">
-            <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/3 w-[500px] h-[500px] bg-primary/20 rounded-full blur-3xl pointer-events-none"></div>
-            <div className="absolute bottom-0 left-0 translate-y-1/3 -translate-x-1/4 w-[400px] h-[400px] bg-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
+            <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/3 w-125 h-125 bg-primary/20 rounded-full blur-3xl pointer-events-none"></div>
+            <div className="absolute bottom-0 left-0 translate-y-1/3 -translate-x-1/4 w-100 h-100 bg-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
 
             <div className="relative z-10 flex flex-col md:flex-row p-8 sm:p-12 md:p-16 gap-10 md:gap-16 items-center max-w-7xl mx-auto">
                 <div className="w-full md:w-1/2">

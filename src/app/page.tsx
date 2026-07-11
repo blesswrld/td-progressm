@@ -15,7 +15,7 @@ export default function Home() {
         <main className="min-h-screen p-4 sm:p-6 md:p-8 max-w-7xl mx-auto w-full">
             <section className="mb-12 sm:mb-16 bg-dark rounded-2xl sm:rounded-3xl p-5 sm:p-8 md:p-12 lg:p-16 flex flex-col justify-center items-start relative overflow-hidden shadow-xl">
                 <div className="relative z-10 w-full max-w-3xl">
-                    <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 sm:mb-8 leading-tight sm:text-balance break-words">
+                    <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 sm:mb-8 leading-tight sm:text-balance wrap-break-word">
                         Профессиональный инструмент и оборудование
                     </h1>
 
@@ -89,7 +89,7 @@ export default function Home() {
                             viewBox="0 0 1440 320"
                             fill="none"
                             xmlns="http://www.w3.org/2000/svg"
-                            className="w-full h-auto min-w-[1000px]"
+                            className="w-full h-auto min-w-250"
                         >
                             <path
                                 d="M-100,160 C200,-50 500,350 1540,160"
@@ -156,7 +156,7 @@ export default function Home() {
                                 <Link
                                     key={category.id}
                                     href={`/catalog/${category.slug}`}
-                                    className="group relative bg-white/90 backdrop-blur-md border border-gray-200 rounded-3xl p-6 md:p-8 transition-all duration-300 hover:-translate-y-2 hover:border-primary/50 hover:shadow-xl hover:shadow-primary/10 active:scale-95 overflow-hidden flex flex-col justify-between min-h-[12rem] z-10"
+                                    className="group relative bg-white/90 backdrop-blur-md border border-gray-200 rounded-3xl p-6 md:p-8 transition-all duration-300 hover:-translate-y-2 hover:border-primary/50 hover:shadow-xl hover:shadow-primary/10 active:scale-95 overflow-hidden flex flex-col justify-between min-h-48 z-10"
                                 >
                                     <div className="absolute -right-6 -top-6 w-32 h-32 bg-gray-50 rounded-full group-hover:bg-primary/5 transition-colors duration-500 z-0"></div>
 

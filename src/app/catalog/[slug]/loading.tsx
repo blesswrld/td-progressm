@@ -11,11 +11,11 @@ export default function CatalogLoading() {
                 <div className="w-48 h-10 bg-gray-200 rounded-lg animate-pulse"></div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 flex-grow">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 grow">
                 {Array.from({ length: 8 }).map((_, index) => (
                     <div
                         key={index}
-                        className="bg-white border border-border-main rounded-xl p-5 flex flex-col justify-between h-[380px]"
+                        className="bg-white border border-border-main rounded-xl p-5 flex flex-col justify-between h-95"
                     >
                         <div>
                             <div className="w-full aspect-square bg-gray-100 rounded-lg animate-pulse mb-4"></div>

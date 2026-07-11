@@ -68,7 +68,7 @@ export default function SearchInput() {
     return (
         <div
             ref={searchRef}
-            className="w-full md:w-auto md:flex-1 max-w-xl relative order-last md:order-none md:mx-4"
+            className="w-full md:w-auto md:flex-1 max-w-xl relative order-last md:order-0 md:mx-4"
         >
             <div className="relative">
                 <input
@@ -95,7 +95,7 @@ export default function SearchInput() {
             </div>
 
             {isOpen && results.length > 0 && (
-                <div className="absolute left-0 right-0 mt-2 bg-white rounded-xl shadow-2xl border border-border-main overflow-hidden z-[100] max-h-[380px] overflow-y-auto">
+                <div className="absolute left-0 right-0 mt-2 bg-white rounded-xl shadow-2xl border border-border-main overflow-hidden z-100 max-h-95 overflow-y-auto">
                     {results.map((product) => (
                         <button
                             key={product.id}
@@ -120,7 +120,7 @@ export default function SearchInput() {
                                     <span className="text-sm">📦</span>
                                 )}
                             </div>
-                            <div className="flex-grow min-w-0">
+                            <div className="grow min-w-0">
                                 <p className="text-xs text-gray-400 font-mono">
                                     Арт: {product.article}
                                 </p>
@@ -137,7 +137,7 @@ export default function SearchInput() {
                 query.trim().length >= 2 &&
                 results.length === 0 &&
                 !isLoading && (
-                    <div className="absolute left-0 right-0 mt-2 bg-white rounded-xl shadow-xl border border-border-main p-4 text-center text-sm text-text-main z-[100]">
+                    <div className="absolute left-0 right-0 mt-2 bg-white rounded-xl shadow-xl border border-border-main p-4 text-center text-sm text-text-main z-100">
                         Ничего не найдено по запросу «{query}»
                     </div>
                 )}

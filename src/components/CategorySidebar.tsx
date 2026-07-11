@@ -26,7 +26,7 @@ export default function CategorySidebar({
     );
 
     return (
-        <aside className="w-full lg:w-1/4 flex-shrink-0 lg:sticky lg:top-24 bg-white border border-gray-200 rounded-2xl p-5 shadow-sm">
+        <aside className="w-full lg:w-1/4 shrink-0 lg:sticky lg:top-24 bg-white border border-gray-200 rounded-2xl p-5 shadow-sm">
             <h3 className="text-lg font-bold text-dark mb-4 border-b border-gray-100 pb-3">
                 {title}
             </h3>

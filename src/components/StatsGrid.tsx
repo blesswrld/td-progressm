@@ -107,7 +107,7 @@ export default function StatsGrid() {
 
     return (
         <section className="flex flex-col lg:flex-row gap-8 lg:gap-10 items-center">
-            <div className="flex-1 w-full lg:pr-10 min-h-[220px] flex flex-col justify-center">
+            <div className="flex-1 w-full lg:pr-10 min-h-55 flex flex-col justify-center">
                 <span className="text-sm font-bold text-primary tracking-wider uppercase mb-2 block">
                     Прогресс в цифрах
                 </span>
@@ -125,7 +125,7 @@ export default function StatsGrid() {
                 </div>
             </div>
 
-            <div className="flex-1 w-full grid grid-cols-1 min-[400px]:grid-cols-2 rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl bg-border-main gap-[1px]">
+            <div className="flex-1 w-full grid grid-cols-1 min-[400px]:grid-cols-2 rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl bg-border-main gap-px">
                 {statsData.map((stat, index) => {
                     const isActive = activeStat === index;
 
@@ -140,7 +140,7 @@ export default function StatsGrid() {
                             onMouseEnter={() => setActiveStat(index)}
                             onClick={() => setActiveStat(index)}
                             className={`
-                p-6 sm:p-10 flex flex-col justify-center min-h-[140px] sm:min-h-[200px] text-left transition-all duration-500
+                p-6 sm:p-10 flex flex-col justify-center min-h-35 sm:min-h-50 text-left transition-all duration-500
                 ${stat.bgClass} ${opacityClass}
               `}
                         >

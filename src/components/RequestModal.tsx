@@ -111,7 +111,7 @@ export default function RequestModal({
     };
 
     return (
-        <div className="fixed inset-0 z-[150] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
+        <div className="fixed inset-0 z-150 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
             <div className="relative w-full max-w-md bg-white rounded-2xl shadow-2xl border border-gray-200 p-6 overflow-hidden">
                 <button
                     onClick={onClose}
