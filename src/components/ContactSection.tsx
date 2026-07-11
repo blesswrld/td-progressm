@@ -3,10 +3,46 @@
 import { useState } from "react";
 import { Loader2, PhoneCall, CheckCircle2 } from "lucide-react";
 
+const formatPhoneNumber = (value: string) => {
+    if (!value) return value;
+
+    const phoneNumber = value.replace(/\D/g, "");
+    if (phoneNumber.length === 0) return "";
+
+    if (["7", "8", "9"].indexOf(phoneNumber[0]) > -1) {
+        const firstDigit = phoneNumber[0] === "9" ? "79" : "7";
+        let formatted = "+" + firstDigit;
+        const digits = phoneNumber.substring(phoneNumber[0] === "9" ? 0 : 1);
+
+        if (digits.length > 0) {
+            formatted += " (" + digits.substring(0, 3);
+        }
+        if (digits.length >= 4) {
+            formatted += ") " + digits.substring(3, 6);
+        }
+        if (digits.length >= 7) {
+            formatted += "-" + digits.substring(6, 8);
+        }
+        if (digits.length >= 9) {
+            formatted += "-" + digits.substring(8, 10);
+        }
+        return formatted;
+    } else {
+        return "+" + phoneNumber.substring(0, 15);
+    }
+};
+
 export default function ContactSection() {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
     const [errors, setErrors] = useState({ name: "", phone: "" });
+    const [phoneValue, setPhoneValue] = useState("");
+
+    const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const formatted = formatPhoneNumber(e.target.value);
+        setPhoneValue(formatted);
+        clearError("phone");
+    };
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -14,7 +50,7 @@ export default function ContactSection() {
         const form = e.currentTarget;
         const formData = new FormData(form);
         const name = (formData.get("name") as string).trim();
-        const phone = (formData.get("phone") as string).trim();
+        const phone = phoneValue.trim();
 
         const newErrors = { name: "", phone: "" };
         let isValid = true;
@@ -52,6 +88,7 @@ export default function ContactSection() {
             if (res.ok) {
                 setIsSuccess(true);
                 form.reset();
+                setPhoneValue("");
 
                 setTimeout(() => {
                     setIsSuccess(false);
@@ -164,8 +201,10 @@ export default function ContactSection() {
                                         required
                                         name="phone"
                                         type="tel"
+                                        value={phoneValue}
+                                        onChange={handlePhoneChange}
                                         placeholder="+7 (999) 000-00-00"
-                                        onChange={() => clearError("phone")}
+                                        maxLength={18}
                                         className={`w-full px-5 py-3.5 rounded-xl border bg-gray-50 focus:outline-none text-sm text-dark transition-colors ${
                                             errors.phone
                                                 ? "border-red-500 focus:ring-2 focus:ring-red-200"
